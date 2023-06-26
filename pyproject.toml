@@ -23,6 +23,9 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.8"
 toml = "^0.10.2"
+wf-postgres-client = "^0.1.0"
+wf-honeycomb-io = "^2.1"
+pandas = "^1.5"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
