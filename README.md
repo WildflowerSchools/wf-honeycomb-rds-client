@@ -1,10 +1,10 @@
-# MODULE_NAME
+# honeycomb_rds_client
 
-SHORT_DESCRIPTION
+A client for communicating with the RDS database underlying Honeycomb
 
 ## Installation
 
-`pip install PYPI_PACKAGE_NAME`
+`pip install wf-honeycomb-rds-client`
 
 ## Development
 
