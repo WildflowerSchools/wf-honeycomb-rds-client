@@ -1,6 +1,7 @@
 import postgres_client
 import honeycomb_io
 import pandas as pd
+import numpy as np
 import datetime
 import os
 
@@ -76,9 +77,7 @@ class HoneycombRDSClient(postgres_client.PostgresClient):
             convert_to_dataframe=True
         )
         position_data['timestamp'] = pd.to_datetime(position_data['timestamp']).dt.tz_localize('UTC')
-        position_data['x'] = pd.to_numeric(position_data['data.coordinates'].apply(lambda x: x[0]))
-        position_data['y'] = pd.to_numeric(position_data['data.coordinates'].apply(lambda x: x[1]))
-        position_data['z'] = pd.to_numeric(position_data['data.coordinates'].apply(lambda x: x[2]))
+        position_data['position'] = position_data['data.coordinates'].apply(np.asarray)
         position_data['anchor_count'] = pd.to_numeric(position_data['anchor_count']).astype('Int64')
         position_data['socket_read_time'] = pd.to_datetime(position_data['socket_read_time']).dt.tz_localize('UTC')
         position_data['network_time'] = pd.to_numeric(position_data['network_time']).astype('Int64')
@@ -92,9 +91,7 @@ class HoneycombRDSClient(postgres_client.PostgresClient):
                 'position_id',
                 'timestamp',
                 'device_id',
-                'x',
-                'y',
-                'z',
+                'position',
                 'quality',
                 'anchor_count',
                 'socket_read_time',
@@ -160,9 +157,7 @@ class HoneycombRDSClient(postgres_client.PostgresClient):
             convert_to_dataframe=True
         )
         accelerometer_data['timestamp'] = pd.to_datetime(accelerometer_data['timestamp']).dt.tz_localize('UTC')
-        accelerometer_data['x'] = pd.to_numeric(accelerometer_data['data.data'].apply(lambda x: x[0]))
-        accelerometer_data['y'] = pd.to_numeric(accelerometer_data['data.data'].apply(lambda x: x[1]))
-        accelerometer_data['z'] = pd.to_numeric(accelerometer_data['data.data'].apply(lambda x: x[2]))
+        accelerometer_data['acceleration'] = accelerometer_data['data.data'].apply(np.asarray)
         accelerometer_data['socket_read_time'] = pd.to_datetime(accelerometer_data['socket_read_time']).dt.tz_localize('UTC')
         accelerometer_data['network_time'] = pd.to_numeric(accelerometer_data['network_time']).astype('Int64')
         accelerometer_data = (
@@ -174,9 +169,7 @@ class HoneycombRDSClient(postgres_client.PostgresClient):
                 'accelerometer_data_id',
                 'timestamp',
                 'device_id',
-                'x',
-                'y',
-                'z',
+                'acceleration',
                 'socket_read_time',
                 'network_time',
             ])
