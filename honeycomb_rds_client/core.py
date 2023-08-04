@@ -81,6 +81,20 @@ class HoneycombRDSClient(postgres_client.PostgresClient):
             connection=connection,
             convert_to_dataframe=True
         )
+        if len(position_data) == 0:
+            logger.warning('No data returned')
+            return pd.DataFrame([], columns = [
+                'position_id',
+                'timestamp',
+                'device_id',
+                'position',
+                'quality',
+                'anchor_count',
+                'socket_read_time',
+                'network_time',
+                'coordinate_space_id',
+
+            ]).set_index('position_id')
         position_data['timestamp'] = pd.to_datetime(position_data['timestamp']).dt.tz_localize('UTC')
         position_data['position'] = position_data['data.coordinates'].apply(np.asarray)
         position_data['anchor_count'] = pd.to_numeric(position_data['anchor_count']).astype('Int64')
@@ -201,6 +215,17 @@ class HoneycombRDSClient(postgres_client.PostgresClient):
             connection=connection,
             convert_to_dataframe=True
         )
+        if len(accelerometer_data) == 0:
+            logger.warning('No data returned')
+            return pd.DataFrame([], columns = [
+                'accelerometer_data_id',
+                'timestamp',
+                'device_id',
+                'acceleration',
+                'socket_read_time',
+                'network_time',
+
+            ]).set_index('accelerometer_data_id')
         accelerometer_data['timestamp'] = pd.to_datetime(accelerometer_data['timestamp']).dt.tz_localize('UTC')
         accelerometer_data['acceleration'] = accelerometer_data['data.data'].apply(np.asarray)
         accelerometer_data['socket_read_time'] = pd.to_datetime(accelerometer_data['socket_read_time']).dt.tz_localize('UTC')
