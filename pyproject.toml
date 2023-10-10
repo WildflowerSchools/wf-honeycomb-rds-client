@@ -26,6 +26,7 @@ toml = "^0.10.2"
 wf-postgres-client = ">=0.1.0"
 wf-honeycomb-io = ">=2.1"
 pandas = ">=1.5"
+pydantic = "^2.4.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"

@@ -1,9 +1,12 @@
-import postgres_client
-import honeycomb_io
-import pandas as pd
-import numpy as np
 import datetime
 import os
+
+import honeycomb_io
+import numpy as np
+import pandas as pd
+import postgres_client
+
+from .log import logger
 
 class HoneycombRDSClient(postgres_client.PostgresClient):
     def __init__(
